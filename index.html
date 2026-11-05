@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mungkin Bila Nanti - Peterpan</title>
+  <style>
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+    }
+    
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      /* Ubah nama file background sesuai milik lo */
+      background: url('Spotify blur aesthetic.jpg') center/cover no-repeat fixed;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1;
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 390px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Icon Music Player menggantikan Disc Polos */
+    .music-icon-box {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(56, 189, 248, 0.4);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .music-icon-box svg {
+      width: 50px;
+      height: 50px;
+      fill: #38bdf8;
+      filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
+    }
+
+    /* Efek animasi berputar & glowing saat musik diputar */
+    .music-icon-box.playing { 
+      animation: pulseSpin 8s linear infinite;
+      border-color: #38bdf8;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+    }
+
+    @keyframes pulseSpin { 
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.05); }
+      100% { transform: rotate(360deg) scale(1); } 
+    }
+
+    .title { 
+      font-size: 1.25rem; 
+      font-weight: 700; 
+      color: #fff;
+      margin-bottom: 4px; 
+    }
+    
+    .artist { 
+      font-size: 0.85rem; 
+      color: #93c5fd; 
+      margin-bottom: 20px; 
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Area Lirik */
+    .lyrics-container {
+      height: 180px;
+      overflow-y: auto;
+      margin-bottom: 24px;
+      padding: 10px;
+      scroll-behavior: smooth;
+    }
+
+    .lyrics-container::-webkit-scrollbar { display: none; }
+    .lyrics-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .lyric-line {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.35);
+      margin: 16px 0;
+      transition: all 0.35s ease;
+      line-height: 1.4;
+    }
+
+    .lyric-line.active {
+      color: #38bdf8;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+    }
+
+    /* Tombol Play */
+    .btn-play {
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      color: #fff;
+      border: none;
+      padding: 14px 38px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-play:active { 
+      transform: scale(0.95); 
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- Icon Music SVG -->
+    <div class="music-icon-box" id="musicBox">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+      </svg>
+    </div>
+
+    <div class="title">Mungkin Bila Nanti</div>
+    <div class="artist">Peterpan</div>
+
+    <!-- Area Lirik -->
+    <div class="lyrics-container" id="lyricsBox">
+    <div class="lyric-line" data-time="0">🎵 Sentuh tombol Putar Musik</div>
+      <div class="lyric-line" data-time="3">Dan mungkin bila nanti</div>
+      <div class="lyric-line" data-time="6">Kita kan bertemu lagi</div>
+      <div class="lyric-line" data-time="10">Satu pintaku jangan kau coba</div>
+      <div class="lyric-line" data-time="15">Tanyakan kembali</div>
+      <div class="lyric-line" data-time="18">Rasa yang kutinggal mati</div>
+      <div class="lyric-line" data-time="22">Seperti hari kemarin</div>
+      <div class="lyric-line" data-time="26">Saat semua di sini</div>
+      <div class="lyric-line" data-time="30">Tak usah kau tanyakan lagi</div>
+      <div class="lyric-line" data-time="35">Simpan untukmu sendiri</div>
+      <div class="lyric-line" data-time="39">Semua sesal yang kau cari</div>
+      <div class="lyric-line" data-time="43">Semua rasa yang kau beri</div>
+    </div>
+
+    <button class="btn-play" id="playBtn">Putar Musik</button>
+  </div>
+
+  <audio id="myAudio" src="mungkin-bila-nanti.mp3"></audio>
+
+  <script>
+    const audio = document.getElementById('myAudio');
+    const playBtn = document.getElementById('playBtn');
+    const musicBox = document.getElementById('musicBox');
+    const lines = document.querySelectorAll('.lyric-line');
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.innerText = 'Jeda (Pause)';
+        musicBox.classList.add('playing');
+      } else {
+        audio.pause();
+        playBtn.innerText = 'Putar Musik';
+        musicBox.classList.remove('playing');
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      const curTime = audio.currentTime;
+
+      lines.forEach((line, idx) => {
+        const time = parseFloat(line.getAttribute('data-time'));
+        const nextTime = lines[idx + 1] ? parseFloat(lines[idx + 1].getAttribute('data-time')) : Infinity;
+
+        if (curTime >= time && curTime < nextTime) {
+          lines.forEach(l => l.classList.remove('active'));
+          line.classList.add('active');
+          line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    audio.addEventListener('ended', () => {
+      playBtn.innerText = 'Putar Musik';
+      musicBox.classList.remove('playing');
+    });
+  </script>
+</body>
+</html>
